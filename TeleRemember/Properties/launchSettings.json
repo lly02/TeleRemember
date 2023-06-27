@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "TeleRemember": {
+      "commandName": "Project",
+      "commandLineArgs": "botToken=5410734316:AAFmeHzj5Zi3fmH29-LEJqWXx7p7GAzqGcM",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
