@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,15 @@ namespace TeleRemember.Helper
         {
             var content = await message.Content.ReadAsStringAsync();
             return StringToJson(content);
+        }
+
+        public async static Task<JsonNode> HttpRequestToJsonAsync(HttpRequest request)
+        {
+            using (StreamReader sr = new StreamReader(request.Body))
+            {
+                var content = await sr.ReadToEndAsync();
+                return StringToJson(content);
+            }
         }
 
         public static JsonNode StringToJson(string s) => 

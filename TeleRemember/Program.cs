@@ -1,22 +1,25 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using TeleRemember.Server;
 using TeleRemember.Server.Interface;
-using Microsoft.AspNetCore.Hosting;
+using TeleRemember.Server.Webhook;
+using Microsoft.Extensions.Logging;
 
 namespace TeleRemember
 {
     public static class Program
     {
-        private static IHost? _host;
-
         public static void Main(string[] args)
         {
             WebApplicationBuilder builder = CreateHostBuilder(args);
-            _host = builder.Build();
+            WebApplication app = builder.Build();
 
-            _host.Run();
+            app.MapPost("/webhook", WebhookAPI.Webhook);
+            app.MapGet("/webhook", WebhookAPI.Webhook);
+            
+            app.Run("http://*:80");
         }
 
         private static WebApplicationBuilder CreateHostBuilder(string[] args)
@@ -47,11 +50,6 @@ namespace TeleRemember
             //});
 
             //return builder;
-        }
-
-        public static IHost? GetInstace
-        {
-            get { return _host; }
         }
     }
 }
