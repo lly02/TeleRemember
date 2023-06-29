@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Builder;
 using TeleRemember.Server;
 using TeleRemember.Server.Interface;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TeleRemember
 {
@@ -11,27 +13,40 @@ namespace TeleRemember
 
         public static void Main(string[] args)
         {
-            IHostBuilder builder = CreateHostBuilder(args);
+            WebApplicationBuilder builder = CreateHostBuilder(args);
             _host = builder.Build();
 
             _host.Run();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args)
+        private static WebApplicationBuilder CreateHostBuilder(string[] args)
         {
-            IHostBuilder builder = Host.CreateDefaultBuilder(args);
-            builder.ConfigureServices((context, services) =>
-            {
-                services.AddSingleton<Config>();
-                services.AddSingleton<HttpSharedClient>();
-                services.AddLogging();
-                services.AddHostedService<App>();
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            IServiceCollection host = builder.Services;
 
-                services.AddSingleton<Bot>();
-                services.AddTransient<ITelegramAPI, TelegramAPI>();
-            });
+            host.AddSingleton<Config>();
+            host.AddSingleton<HttpSharedClient>();
+            host.AddLogging();
+            host.AddHostedService<App>();
+
+            host.AddSingleton<Bot>();
+            host.AddTransient<ITelegramAPI, TelegramAPI>();
 
             return builder;
+
+            //IHostBuilder builder = Host.CreateDefaultBuilder(args);
+            //builder.ConfigureServices((context, services) =>
+            //{
+            //    services.AddSingleton<Config>();
+            //    services.AddSingleton<HttpSharedClient>();
+            //    services.AddLogging();
+            //    services.AddHostedService<App>();
+
+            //    services.AddSingleton<Bot>();
+            //    services.AddTransient<ITelegramAPI, TelegramAPI>();
+            //});
+
+            //return builder;
         }
 
         public static IHost? GetInstace

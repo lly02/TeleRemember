@@ -15,10 +15,9 @@ namespace TeleRemember.Helper
         {
             var content = await message.Content.ReadAsStringAsync();
             return StringToJson(content);
-            }
+        }
 
         public static JsonNode StringToJson(string s) => 
             JsonNode.Parse(s)!;
-        }
     }
 }

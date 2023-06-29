@@ -21,6 +21,7 @@ namespace TeleRemember
             ILogger<App> logger,
             IHostApplicationLifetime appLifetime)
         {
+            _config = config;
             _logger = logger;
             _bot = bot;
 
@@ -28,20 +29,16 @@ namespace TeleRemember
             appLifetime.ApplicationStopping.Register(OnStopping);
             appLifetime.ApplicationStopped.Register(OnStopped);
         }
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("App has started.");
 
-            _bot.InitAsync();
-
-            return Task.CompletedTask;
+            await _bot.InitAsync();
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("App has stopped.");
-
-            return Task.CompletedTask;
         }
 
         private void OnStarted()
