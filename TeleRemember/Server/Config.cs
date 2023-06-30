@@ -20,10 +20,10 @@ namespace TeleRemember.Server
         {
             _config = config;
 
-            BotToken = GetConfig("botToken");
+            BotToken = GetConfig<string>("Telegram:BotToken");
         }
 
-        private string GetConfig(string key) => 
-            _config.GetValue<string>(key) ?? throw new NullReferenceException(key + "is missing");
+        private T GetConfig<T>(string key) => 
+            _config.GetValue<T>(key) ?? throw new NullReferenceException(key + "is missing.");
     }
 }
