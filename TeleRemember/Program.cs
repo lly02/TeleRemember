@@ -16,9 +16,12 @@ namespace TeleRemember
             WebApplicationBuilder builder = CreateHostBuilder(args);
             WebApplication app = builder.Build();
 
-            app.MapPost("/webhook", WebhookAPI.Webhook);
-            app.MapGet("/webhook", WebhookAPI.Webhook);
-            
+            using (var scope = app.Services.CreateScope())
+            {
+                var webhookAPI = scope.ServiceProvider.GetRequiredService<WebhookAPI>();
+                app.MapPost("/webhook", webhookAPI.Webhook);
+            }
+
             app.Run("http://*:80");
         }
 
@@ -34,6 +37,7 @@ namespace TeleRemember
 
             host.AddSingleton<Bot>();
             host.AddTransient<ITelegramAPI, TelegramAPI>();
+            host.AddTransient<WebhookAPI>();
 
             return builder;
 
