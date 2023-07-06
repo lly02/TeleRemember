@@ -109,7 +109,10 @@ namespace TeleRemember.Server
             {
                 var result = await HttpHelper.HttpResponseToJsonAsync(httpResponse);
                 _logger.LogError("{description}", result["description"]);
+                return;
             }
+
+            _currentPage = page;
         }
     }
 }
