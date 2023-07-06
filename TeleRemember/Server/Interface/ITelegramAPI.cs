@@ -9,5 +9,6 @@ namespace TeleRemember.Server.Interface
     public interface ITelegramAPI
     {
         public Task<HttpResponseMessage> GetMeAsync();
+        public Task<HttpResponseMessage> SendMessageAsync(HttpContent httpContent);
     }
 }

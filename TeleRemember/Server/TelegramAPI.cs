@@ -18,6 +18,10 @@ namespace TeleRemember.Server
 
         public async Task<HttpResponseMessage> GetMeAsync() => 
             await _httpClient.GetAsync("getMe");
-            
+
+        public async Task<HttpResponseMessage> SendMessageAsync(HttpContent content) =>
+            await _httpClient.PostAsync(
+                "sendMessage",
+                content);
     }
 }

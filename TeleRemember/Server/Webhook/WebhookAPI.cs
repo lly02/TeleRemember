@@ -14,36 +14,22 @@ namespace TeleRemember.Server.Webhook
     public class WebhookAPI
     {
         private readonly ILogger _logger;
+        private readonly Bot _bot;
 
         public WebhookAPI(
-            ILogger<WebhookAPI> logger)
+            ILogger<WebhookAPI> logger,
+            Bot bot)
         {
             _logger = logger;
+            _bot = bot;
         }
 
         public async void Webhook(HttpRequest request)
         {
             JsonNode data = await HttpHelper.HttpRequestToJsonAsync(request);
-            JsonNode chat = data["message"]!["chat"]!;
-            string message = data["message"]!["text"]!.ToString();
+            WebhookPayload payload = new WebhookPayload(data);
 
-            if (chat!["type"]!.ToString() != "group")
-            {
-                _logger.LogInformation("The bot currently only replies in a group.");
-                return;
-            }
-
-            if (!BotHelper.IsCommand(message)) return;
-
-            string? command = BotHelper.GetCommand(message);
-
-            if (command == "")
-            {
-                _logger.LogInformation("Invalid command: {message}", message);
-                return;
-            }
-
-            _logger.LogInformation("Command received: {message}", command);
+            _bot.ProcessPayload(payload);
         }
     }
 }
