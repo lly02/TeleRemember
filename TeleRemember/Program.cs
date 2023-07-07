@@ -6,6 +6,10 @@ using TeleRemember.Server;
 using TeleRemember.Server.Interface;
 using TeleRemember.Server.Webhook;
 using Microsoft.Extensions.Logging;
+using TeleRemember.Database;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace TeleRemember
 {
@@ -30,7 +34,12 @@ namespace TeleRemember
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             IServiceCollection host = builder.Services;
 
+            builder.Configuration.AddUserSecrets<App>();
             host.AddSingleton<Config>();
+            host.AddDbContext<ListDbContext>(
+                options => options.UseSqlServer(
+                    builder.Configuration.GetValue<string>("ConnectionStrings:SqlServer") ??
+                    throw new NullReferenceException("Connection string is missing.")));
             host.AddSingleton<HttpSharedClient>();
             host.AddLogging();
             host.AddHostedService<App>();

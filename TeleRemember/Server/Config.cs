@@ -11,7 +11,14 @@ namespace TeleRemember.Server
 {
     public class Config
     {
-        public string BotToken { get; private set; }
+        public string BotToken 
+        { 
+            get => GetConfig<string>("Telegram:BotToken");
+        }
+        public string ConnectionString
+        {
+            get => GetConfig<string>("ConnectionStrings:SqlServer");
+        }
 
         private IConfiguration _config;
 
@@ -19,11 +26,9 @@ namespace TeleRemember.Server
             IConfiguration config)
         {
             _config = config;
-
-            BotToken = GetConfig<string>("Telegram:BotToken");
         }
 
         private T GetConfig<T>(string key) => 
-            _config.GetValue<T>(key) ?? throw new NullReferenceException(key + "is missing.");
+            _config.GetValue<T>(key) ?? throw new NullReferenceException(key + " is missing.");
     }
 }
