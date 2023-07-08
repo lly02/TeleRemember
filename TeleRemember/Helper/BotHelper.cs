@@ -14,7 +14,7 @@ namespace TeleRemember.Helper
 
         public static string GetCommand(string message)
         {
-            var pattern = @"^\/(\w+)";
+            var pattern = @"^\/(\w+)@*";
             var match = Regex.Match(message, pattern);
 
             return match.Groups[1].Value;

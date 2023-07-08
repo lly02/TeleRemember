@@ -34,7 +34,7 @@ namespace TeleRemember
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             IServiceCollection host = builder.Services;
 
-            builder.Configuration.AddUserSecrets<App>();
+            builder.Configuration.AddUserSecrets<StartupBase>();
             host.AddSingleton<Config>();
             host.AddDbContext<ListDbContext>(
                 options => options.UseSqlServer(
@@ -47,6 +47,8 @@ namespace TeleRemember
             host.AddSingleton<Bot>();
             host.AddTransient<ITelegramAPI, TelegramAPI>();
             host.AddTransient<WebhookAPI>();
+            host.AddTransient<Controller>();
+            host.AddTransient<Server.Model>();
 
             return builder;
 

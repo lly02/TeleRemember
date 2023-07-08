@@ -14,14 +14,14 @@ namespace TeleRemember.Server.Webhook
     public class WebhookAPI
     {
         private readonly ILogger _logger;
-        private readonly Bot _bot;
+        private readonly Controller _controller;
 
         public WebhookAPI(
             ILogger<WebhookAPI> logger,
-            Bot bot)
+            Controller controller)
         {
             _logger = logger;
-            _bot = bot;
+            _controller = controller;
         }
 
         public async void Webhook(HttpRequest request)
@@ -29,7 +29,7 @@ namespace TeleRemember.Server.Webhook
             JsonNode data = await HttpHelper.HttpRequestToJsonAsync(request);
             WebhookPayload payload = new WebhookPayload(data);
 
-            _bot.ProcessPayload(payload);
+            _controller.Route(payload);
         }
     }
 }

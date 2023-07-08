@@ -16,9 +16,9 @@ namespace TeleRemember.Database.Table
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(TypeName = "uniqueidentifier")]
-        public required Guid Id { get; set; }
+        public Guid Id { get; set; }
         [Column(TypeName = "varchar(50)")]
-        public required string Title { get; set; }
+        public string Title { get; set; }
         [Column(TypeName = "varchar(200)")]
         public string? Description { get; set; }
         [Column(TypeName = "varchar(2048)")]
@@ -26,11 +26,11 @@ namespace TeleRemember.Database.Table
         [Column(TypeName = "datetime")]
         public DateTime? Due { get; set; }
         [Column(TypeName = "varchar(50)")]
-        public required string Priority { get; set; }
+        public string Priority { get; set; }
         [Column(TypeName = "varchar(100)")]
-        public required string CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Column(TypeName = "datetime")]
-        public required DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

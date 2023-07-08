@@ -29,5 +29,9 @@ namespace TeleRemember.Helper
 
         public static JsonNode StringToJson(string s) => 
             JsonNode.Parse(s)!;
+
+        public static StringContent StringToHttpResponse(string s) =>
+            new StringContent(s, Encoding.UTF8, "application/json");
+        
     }
 }

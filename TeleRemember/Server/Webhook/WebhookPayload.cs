@@ -12,9 +12,14 @@ namespace TeleRemember.Server.Webhook
         private JsonNode _payload;
 
         public WebhookPayload(
-            JsonNode payload) 
+            JsonNode payload)
         {
-            _payload = payload;
+            _payload = payload["callback_query"]!;
+
+            if (_payload == null)
+            {
+                _payload = payload;
+            }
         }
 
         public string ChatID =>
