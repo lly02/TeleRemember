@@ -31,6 +31,7 @@ namespace TeleRemember.UI
             """;
 
         public static string Priority = $$"""
+        {
             "keyboard":
                 [
                     [ 
@@ -52,6 +53,7 @@ namespace TeleRemember.UI
             "is_persistent" : true,
             "resize_keyboard": true,
             "one_time_keyboard" : true
+        }
         """;
 
         public static string Success = $$"""

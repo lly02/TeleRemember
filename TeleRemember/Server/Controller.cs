@@ -66,25 +66,26 @@ namespace TeleRemember.Server
 
         }
 
-        private void UserInput(string action, string message = "")
+        private async Task UserInput(string action, string message = "")
         {
             switch (action)
             {
                 case "menu":
-                    DisplayMenu(message);
+                    await DisplayMenu(message);
                     break;
 
+                case "add":
                 case "new":
-                    DisplayNew(message);
+                    await DisplayNew(message);
                     break;
 
                 case "display":
-                    DisplayList();
+                    await DisplayList();
                     break;
             }
         }
 
-        private async void DisplayMenu(string message = "")
+        private async Task DisplayMenu(string message = "")
         {
             string content = $$"""
             {
@@ -106,7 +107,7 @@ namespace TeleRemember.Server
             _currentPage = "menu";
         }
 
-        private async void DisplayNew(string message = "")
+        private async Task DisplayNew(string message = "")
         {
             string content = "";
 
@@ -220,7 +221,7 @@ namespace TeleRemember.Server
             _currentPage = "new";
         }
 
-        private async void DisplayList()
+        private async Task DisplayList()
         {
             var list = await _model.GetAllTodo();
             string items = ""; 
